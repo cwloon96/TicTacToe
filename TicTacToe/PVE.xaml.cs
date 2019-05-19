@@ -300,7 +300,7 @@ namespace TicTacToe
         {
             if (aiMove)
             {
-                if (table[0] == 0 && table[1] == pplNum && table[2] == pplNum) //top row
+                if (table[0] == 0 && table[1] == pplNum && table[2] == pplNum)
                 {
                     table[0] = aiNum;
                     lbl1.Content = FindResource(aiKey);
@@ -308,7 +308,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[1] == 0 && table[2] == pplNum)//top row
+                else if (table[0] == pplNum && table[1] == 0 && table[2] == pplNum)
                 {
                     table[1] = aiNum;
                     lbl2.Content = FindResource(aiKey);
@@ -316,7 +316,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[1] == pplNum && table[2] == 0)//top row
+                else if (table[0] == pplNum && table[1] == pplNum && table[2] == 0)
                 {
                     table[2] = aiNum;
                     lbl3.Content = FindResource(aiKey);
@@ -324,7 +324,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == 0 && table[3] == pplNum && table[4] == pplNum) //mid row --
+                else if (table[5] == 0 && table[3] == pplNum && table[4] == pplNum)
                 {
                     table[5] = aiNum;
                     lbl6.Content = FindResource(aiKey);
@@ -332,7 +332,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == pplNum && table[3] == 0 && table[4] == pplNum)//mid row --
+                else if (table[5] == pplNum && table[3] == 0 && table[4] == pplNum)
                 {
                     table[3] = aiNum;
                     lbl4.Content = FindResource(aiKey);
@@ -340,7 +340,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == pplNum && table[3] == pplNum && table[4] == 0)//mid row --
+                else if (table[5] == pplNum && table[3] == pplNum && table[4] == 0)
                 {
                     table[4] = aiNum;
                     lbl5.Content = FindResource(aiKey);
@@ -348,7 +348,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[6] == 0 && table[7] == pplNum && table[8] == pplNum) //btm row
+                else if (table[6] == 0 && table[7] == pplNum && table[8] == pplNum) 
                 {
                     table[6] = aiNum;
                     lbl7.Content = FindResource(aiKey);
@@ -356,7 +356,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[6] == pplNum && table[7] == 0 && table[8] == pplNum)//btm row
+                else if (table[6] == pplNum && table[7] == 0 && table[8] == pplNum)
                 {
                     table[7] = aiNum;
                     lbl8.Content = FindResource(aiKey);
@@ -364,7 +364,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[6] == pplNum && table[7] == pplNum && table[8] == 0)//btm row
+                else if (table[6] == pplNum && table[7] == pplNum && table[8] == 0)
                 {
                     table[8] = aiNum;
                     lbl9.Content = FindResource(aiKey);
@@ -372,7 +372,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == 0 && table[3] == pplNum && table[6] == pplNum) //left row
+                else if (table[0] == 0 && table[3] == pplNum && table[6] == pplNum)
                 {
                     table[0] = aiNum;
                     lbl1.Content = FindResource(aiKey);
@@ -380,7 +380,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[3] == 0 && table[6] == pplNum)//left row
+                else if (table[0] == pplNum && table[3] == 0 && table[6] == pplNum)
                 {
                     table[3] = aiNum;
                     lbl4.Content = FindResource(aiKey);
@@ -388,7 +388,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[3] == pplNum && table[6] == 0)//left row
+                else if (table[0] == pplNum && table[3] == pplNum && table[6] == 0)
                 {
                     table[6] = aiNum;
                     lbl7.Content = FindResource(aiKey);
@@ -396,7 +396,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[4] == 0 && table[1] == pplNum && table[7] == pplNum) //mid row |
+                else if (table[4] == 0 && table[1] == pplNum && table[7] == pplNum)
                 {
                     table[4] = aiNum;
                     lbl5.Content = FindResource(aiKey);
@@ -404,7 +404,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[4] == pplNum && table[1] == 0 && table[7] == pplNum)//mid row |
+                else if (table[4] == pplNum && table[1] == 0 && table[7] == pplNum)
                 {
                     table[1] = aiNum;
                     lbl2.Content = FindResource(aiKey);
@@ -412,7 +412,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[4] == pplNum && table[1] == pplNum && table[7] == 0)//mid row |
+                else if (table[4] == pplNum && table[1] == pplNum && table[7] == 0)
                 {
                     table[7] = aiNum;
                     lbl8.Content = FindResource(aiKey);
@@ -420,7 +420,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == 0 && table[2] == pplNum && table[8] == pplNum) //right row
+                else if (table[5] == 0 && table[2] == pplNum && table[8] == pplNum)
                 {
                     table[5] = aiNum;
                     lbl6.Content = FindResource(aiKey);
@@ -428,7 +428,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == pplNum && table[2] == 0 && table[8] == pplNum)//right row
+                else if (table[5] == pplNum && table[2] == 0 && table[8] == pplNum)
                 {
                     table[2] = aiNum;
                     lbl3.Content = FindResource(aiKey);
@@ -436,7 +436,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[5] == pplNum && table[2] == pplNum && table[8] == 0)//right row
+                else if (table[5] == pplNum && table[2] == pplNum && table[8] == 0)
                 {
                     table[8] = aiNum;
                     lbl9.Content = FindResource(aiKey);
@@ -444,7 +444,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == 0 && table[4] == pplNum && table[8] == pplNum) //top left to btm right
+                else if (table[0] == 0 && table[4] == pplNum && table[8] == pplNum)
                 {
                     table[0] = aiNum;
                     lbl1.Content = FindResource(aiKey);
@@ -452,7 +452,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[4] == 0 && table[8] == pplNum) //top left to btm right
+                else if (table[0] == pplNum && table[4] == 0 && table[8] == pplNum)
                 {
                     table[4] = aiNum;
                     lbl5.Content = FindResource(aiKey);
@@ -460,7 +460,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[0] == pplNum && table[4] == pplNum && table[8] == 0) //top left to btm right
+                else if (table[0] == pplNum && table[4] == pplNum && table[8] == 0)
                 {
                     table[8] = aiNum;
                     lbl9.Content = FindResource(aiKey);
@@ -468,7 +468,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[2] == 0 && table[4] == pplNum && table[6] == pplNum) //top right to btm left
+                else if (table[2] == 0 && table[4] == pplNum && table[6] == pplNum)
                 {
                     table[2] = aiNum;
                     lbl3.Content = FindResource(aiKey);
@@ -476,7 +476,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[2] == pplNum && table[4] == 0 && table[6] == pplNum)//top right to btm left
+                else if (table[2] == pplNum && table[4] == 0 && table[6] == pplNum)
                 {
                     table[4] = aiNum;
                     lbl5.Content = FindResource(aiKey);
@@ -484,7 +484,7 @@ namespace TicTacToe
                     aiMove = false;
                     getResult();
                 }
-                else if (table[2] == pplNum && table[4] == pplNum && table[6] == 0)//top right to btm left
+                else if (table[2] == pplNum && table[4] == pplNum && table[6] == 0)
                 {
                     table[6] = aiNum;
                     lbl7.Content = FindResource(aiKey);
@@ -613,8 +613,8 @@ namespace TicTacToe
                     else if (table[2] == 0 && table[6] == 0 && table[8] == 0)
                     {
                         table[8] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
+                        lbl9.Content = FindResource(aiKey);
+                        lbl9.IsEnabled = false;
                         aiMove = false;
                     }
                 }
@@ -801,62 +801,12 @@ namespace TicTacToe
                 int n = rnd.Next(9);
                 if (table[n] == 0)
                 {
+                    table[n] = aiNum;
                     n += 1;
-                    string lbl = String.Concat("lbl", String.Format("" + n));
-                    if (lbl.Equals("lbl1") && table[0] == 0)
-                    {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl2") && table[1] == 0)
-                    {
-                        table[1] = aiNum;
-                        lbl2.Content = FindResource(aiKey);
-                        lbl2.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl3") && table[2] == 0)
-                    {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl4") && table[3] == 0)
-                    {
-                        table[3] = aiNum;
-                        lbl4.Content = FindResource(aiKey);
-                        lbl4.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl5") && table[4] == 0)
-                    {
-                        table[4] = aiNum;
-                        lbl5.Content = FindResource(aiKey);
-                        lbl5.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl6") && table[5] == 0)
-                    {
-                        table[5] = aiNum;
-                        lbl6.Content = FindResource(aiKey);
-                        lbl6.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl7") && table[6] == 0)
-                    {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl8") && table[7] == 0)
-                    {
-                        table[7] = aiNum;
-                        lbl8.Content = FindResource(aiKey);
-                        lbl8.IsEnabled = false;
-                    }
-                    else if (lbl.Equals("lbl9") && table[8] == 0)
-                    {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                    }
+                    string labelName = string.Concat("lbl", string.Format("" + n));
+                    var label = FindName(labelName) as Label;
+                    label.Content = FindResource(aiKey);
+                    label.IsEnabled = false;
                     aiMove = false;
                 }
             }
@@ -897,7 +847,7 @@ namespace TicTacToe
                 else if (table[2] != 0 && table[2] == table[5] && table[2] == table[8])
                 {
                     return true;
-                }
+                } 
             }
             return false;
         }
@@ -910,60 +860,7 @@ namespace TicTacToe
             int num = int.Parse(lbl.Name[3].ToString()) - 1;
             table[num] = pplNum;
             lbl.IsEnabled = false;
-            //if (lbl.Name.Equals("lbl1"))
-            //{
-            //    lbl1.Content = FindResource(playerKey);
-            //    table[0] = pplNum;
-            //    lbl1.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl2"))
-            //{
-            //    lbl2.Content = FindResource(playerKey);
-            //    table[1] = pplNum;
-            //    lbl2.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl3"))
-            //{
-            //    lbl3.Content = FindResource(playerKey);
-            //    table[2] = pplNum;
-            //    lbl3.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl4"))
-            //{
-            //    lbl4.Content = FindResource(playerKey);
-            //    table[3] = pplNum;
-            //    lbl4.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl5"))
-            //{
-            //    lbl5.Content = FindResource(playerKey);
-            //    table[4] = pplNum;
-            //    lbl5.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl6"))
-            //{
-            //    lbl6.Content = FindResource(playerKey);
-            //    table[5] = pplNum;
-            //    lbl6.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl7"))
-            //{
-            //    lbl7.Content = FindResource(playerKey);
-            //    table[6] = pplNum;
-            //    lbl7.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl8"))
-            //{
-            //    lbl8.Content = FindResource(playerKey);
-            //    table[7] = pplNum;
-            //    lbl8.IsEnabled = false;
-            //}
-            //else if (lbl.Name.Equals("lbl9"))
-            //{
-            //    lbl9.Content = FindResource(playerKey);
-            //    table[8] = pplNum;
-            //    lbl9.IsEnabled = false;
-            //}
+           
             if (!end)
             {
                 aiMove = true;

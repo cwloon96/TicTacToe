@@ -73,133 +73,19 @@ namespace TicTacToe
         {
             counter += 1;
             Label lbl = sender as Label;
-            if (lbl.Name.Equals("lbl1"))
+            int tableIndex = int.Parse(lbl.Name[3].ToString()) - 1;
+
+            if (counter % 2 == 0) //Player 2
             {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl1.Content = FindResource(notChoice);
-                    table[0] = 1;
-                }
-                else // Player1
-                {
-                    //put X
-                    lbl1.Content = FindResource(choice);
-                    table[0] = 2;
-                }
-                lbl1.IsEnabled = false;
+                lbl.Content = FindResource(notChoice);
+                table[tableIndex] = 1;
             }
-            else if (lbl.Name.Equals("lbl2"))
+            else
             {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl2.Content = FindResource(notChoice);
-                    table[1] = 1;
-                }
-                else //Player 1
-                {
-                    lbl2.Content = FindResource(choice);
-                    table[1] = 2;
-                }
-                lbl2.IsEnabled = false;
+                lbl.Content = FindResource(choice);
+                table[tableIndex] = 2;
             }
-            else if (lbl.Name.Equals("lbl3"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl3.Content = FindResource(notChoice);
-                    table[2] = 1;
-                }
-                else //Player 1
-                {
-                    lbl3.Content = FindResource(choice);
-                    table[2] = 2;
-                }
-                lbl3.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl4"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl4.Content = FindResource(notChoice);
-                    table[3] = 1;
-                }
-                else //Player 1
-                {
-                    lbl4.Content = FindResource(choice);
-                    table[3] = 2;
-                }
-                lbl4.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl5"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl5.Content = FindResource(notChoice);
-                    table[4] = 1;
-                }
-                else //Player 1
-                {
-                    lbl5.Content = FindResource(choice);
-                    table[4] = 2;
-                }
-                lbl5.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl6"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl6.Content = FindResource(notChoice);
-                    table[5] = 1;
-                }
-                else //Player 1
-                {
-                    lbl6.Content = FindResource(choice);
-                    table[5] = 2;
-                }
-                lbl6.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl7"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl7.Content = FindResource(notChoice);
-                    table[6] = 1;
-                }
-                else //Player 1
-                {
-                    lbl7.Content = FindResource(choice);
-                    table[6] = 2;
-                }
-                lbl7.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl8"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl8.Content = FindResource(notChoice);
-                    table[7] = 1;
-                }
-                else //Player 1
-                {
-                    lbl8.Content = FindResource(choice);
-                    table[7] = 2;
-                }
-                lbl8.IsEnabled = false;
-            }
-            else if (lbl.Name.Equals("lbl9"))
-            {
-                if (counter % 2 == 0) //Player 2
-                {
-                    lbl9.Content = FindResource(notChoice);
-                    table[8] = 1;
-                }
-                else //Player 1
-                {
-                    lbl9.Content = FindResource(choice);
-                    table[8] = 2;
-                }
-                lbl9.IsEnabled = false;
-            }
+            lbl.IsEnabled = false;
 
             if (getResult())
             {
