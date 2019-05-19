@@ -1,0 +1,25 @@
+﻿<Page x:Class="TicTacToe.PVEWhoFirst"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TicTacToe"
+      mc:Ignorable="d" 
+      d:DesignHeight="350" d:DesignWidth="450"
+      Title="PVEWhoFirst">
+
+    <Grid>
+        <Grid.Background>
+            <ImageBrush ImageSource="D:\Downloads\tictactoe.jpg" Opacity="0.8"/>
+        </Grid.Background>
+
+        <TextBlock HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Width="442" Height="90" FontSize="60"  TextAlignment="Center" x:Name="TTT" Text="Tic Tac Toe"/>
+        <StackPanel HorizontalAlignment="Left" Height="202" Margin="114,90,0,0" VerticalAlignment="Top" Width="222" x:Name="First">
+            <TextBlock TextAlignment="Center" FontSize="30" Margin="0,20,0,0">Who Play First :</TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Button Margin="10,0,0,0" Height="70" Width="70" Click="btnStartPlayer_Click" x:Name="player" Content="You"/>
+                <Button Margin="60,0,0,0" Height="70" Width="70" Click="btnStartPlayer_Click" x:Name="computer" Content="AI"/>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>
