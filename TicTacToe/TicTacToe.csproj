@@ -92,6 +92,7 @@
     <Compile Include="Difficult.xaml.cs">
       <DependentUpon>Difficult.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GameManager.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>

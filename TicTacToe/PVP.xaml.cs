@@ -32,41 +32,9 @@ namespace TicTacToe
             }
         }
 
-        public bool getResult()
+        public bool getResult(int lastMove)
         {
-            if (table[0] != 0 && table[0] == table[1] && table[0] == table[2])
-            {
-                return true;
-            }
-            else if (table[0] != 0 && table[0] == table[3] && table[0] == table[6])
-            {
-                return true;
-            }
-            else if (table[0] != 0 && table[0] == table[4] && table[0] == table[8])
-            {
-                return true;
-            }
-            else if (table[1] != 0 && table[1] == table[4] && table[1] == table[7])
-            {
-                return true;
-            }
-            else if (table[3] != 0 && table[3] == table[4] && table[3] == table[5])
-            {
-                return true;
-            }
-            else if (table[6] != 0 && table[6] == table[7] && table[6] == table[8])
-            {
-                return true;
-            }
-            else if (table[2] != 0 && table[2] == table[4] && table[2] == table[6])
-            {
-                return true;
-            }
-            else if (table[2] != 0 && table[2] == table[5] && table[2] == table[8])
-            {
-                return true;
-            }
-            return false;
+            return GameManager.Instance.CheckWinCondition(lastMove, table);
         }
 
         private void Lbl_MouseDown(object sender, MouseButtonEventArgs e)
@@ -87,7 +55,7 @@ namespace TicTacToe
             }
             lbl.IsEnabled = false;
 
-            if (getResult())
+            if (getResult(tableIndex))
             {
                 if (counter % 2 == 0)
                     MessageBox.Show("Player 2 Win!");
