@@ -37,7 +37,7 @@ namespace TicTacToe
             return GameManager.Instance.CheckWinCondition(lastMove, table);
         }
 
-        private void Lbl_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PlayerMove(object sender, MouseButtonEventArgs e)
         {
             counter += 1;
             Label lbl = sender as Label;

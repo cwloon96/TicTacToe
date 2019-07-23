@@ -9,59 +9,55 @@ namespace TicTacToe
     public partial class PVE : Page
     {
         int[] table = new int[9];
-        int counter = 0;
+        int currentTurn = 0;
         MainMenu menu = new MainMenu();
-        bool aiMove = false;
-        bool aiFirst = false;
-        Random rnd = new Random();
-        int selection = 0;
+        bool isAiFirst = false;
+        Random random = new Random();
+        int level = 0;
         bool end = false;
         int aiNum = 0;
         int pplNum = 0;
         
         string playerKey = Application.Current.Properties["playerUse"].ToString();
         string aiKey = "";
-        string diff = Application.Current.Properties["diff"].ToString();
+        string diff = Application.Current.Properties["difficulty"].ToString();
         string whoFirst = Application.Current.Properties["whoFirst"].ToString();
 
         public PVE()
         {
             InitializeComponent();
-            setDiff(diff);
-            setAiKey();
-            setMove();
-            if (aiFirst)
+            SetDifficulty(diff);
+            SetAiKey();
+            SetMove();
+            if (isAiFirst)
                 AiMove();
         }
 
-        public void setDiff(string diff)
+        public void SetDifficulty(string diff)
         {
             if (diff.Equals("easy"))
-                selection = 1;
+                level = 1;
             else if (diff.Equals("medium"))
-                selection = 2;
+                level = 2;
             else if (diff.Equals("hard"))
-                selection = 3;
+                level = 3;
         }
 
-        public void setAiKey()
+        public void SetAiKey()
         {
             aiKey = playerKey.Equals("X") ? "O" : "X";
         }
 
-        public void setMove()
+        public void SetMove()
         {
             if (whoFirst.Equals("computer"))
             {          
-                aiMove = true;
-                aiFirst = true;
+                isAiFirst = true;
                 aiNum = 1;
                 pplNum = 2;
             }
             else
             {
-                aiMove = false;
-                aiFirst = false;
                 pplNum = 1;
                 aiNum = 2;
             }
@@ -69,792 +65,379 @@ namespace TicTacToe
         
         public void AiMove()
         {
-            counter += 1;
-            if (selection >= 1)
+            currentTurn += 1;
+            int lastMove = -1;
+            if (level >= 1)
             {
-                completeRow();
-                blockRow();
+                CompleteRow(ref lastMove);
+                BlockRow(ref lastMove);
             }
-            if (selection >= 2)
-                setTrap();
-            if (selection >= 3)
-                blockTrap();
-            randMove();
+            if (level >= 2)
+                SetTrap(ref lastMove);
+            if (level >= 3)
+                BlockTrap(ref lastMove);
+            randMove(ref lastMove);
 
+            PlotAiMoveOnTable(lastMove);
             if (!end)
             {
-                if (getResult())
+                if (getResult(lastMove))
                 {
                     MessageBox.Show("Computer Win!");
                     end = true;
-                    reset();
-                    NavigationService.GetNavigationService(this).Navigate(menu);
                 }
-                else if (counter == 9)
+                else if (currentTurn == 9)
                 {
                     MessageBox.Show("Draw!");
                     end = true;
-                    reset();
-                    NavigationService.GetNavigationService(this).Navigate(menu);
                 }
+            }
+
+            if (end)
+            {
+                reset();
+                NavigationService.GetNavigationService(this).Navigate(menu);
             }
         }
 
-        public void completeRow()
+        public void CompleteRow(ref int lastMove)
         {
-            if (table[0] == 0 && table[1] == aiNum && table[2] == aiNum) //top row
+            if ((table[0] == 0 && table[1] == aiNum && table[2] == aiNum) ||
+                (table[0] == 0 && table[3] == aiNum && table[6] == aiNum) ||
+                (table[0] == 0 && table[4] == aiNum && table[8] == aiNum))
             {
-                table[0] = aiNum;
-                lbl1.Content = FindResource(aiKey);
-                lbl1.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 0;
             }
-            else if (table[0] == aiNum && table[1] == 0 && table[2] == aiNum)//top row
+            else if ((table[1] == 0 && table[0] == aiNum && table[2] == aiNum) ||
+                     (table[1] == 0 && table[4] == aiNum && table[7] == aiNum))
             {
-                table[1] = aiNum;
-                lbl2.Content = FindResource(aiKey);
-                lbl2.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 1;
             }
-            else if (table[0] == aiNum && table[1] == aiNum && table[2] == 0)//top row
+            else if ((table[2] == 0 && table[0] == aiNum && table[1] == aiNum) ||
+                     (table[2] == 0 && table[4] == aiNum && table[6] == aiNum) ||
+                     (table[2] == 0 && table[5] == aiNum && table[8] == aiNum))
             {
-                table[2] = aiNum;
-                lbl3.Content = FindResource(aiKey);
-                lbl3.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 2;
             }
-            else if (table[5] == 0 && table[3] == aiNum && table[4] == aiNum) //mid row --
+            else if ((table[3] == 0 && table[5] == aiNum && table[4] == aiNum) ||
+                     (table[3] == 0 && table[0] == aiNum && table[6] == aiNum))
             {
-                table[5] = aiNum;
-                lbl6.Content = FindResource(aiKey);
-                lbl6.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 3;
             }
-            else if (table[5] == aiNum && table[3] == 0 && table[4] == aiNum)//mid row --
+            else if ((table[4] == 0 &&table[5] == aiNum && table[3] == aiNum) ||
+                     (table[4] == 0 && table[1] == aiNum && table[7] == aiNum) ||
+                     (table[4] == 0 && table[0] == aiNum && table[8] == aiNum) ||
+                     (table[4] == 0 && table[2] == aiNum && table[6] == aiNum))
             {
-                table[3] = aiNum;
-                lbl4.Content = FindResource(aiKey);
-                lbl4.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 4;
             }
-            else if (table[5] == aiNum && table[3] == aiNum && table[4] == 0)//mid row --
+            else if ((table[5] == 0 && table[3] == aiNum && table[4] == aiNum) ||
+                     (table[5] == 0 && table[2] == aiNum && table[8] == aiNum))
             {
-                table[4] = aiNum;
-                lbl5.Content = FindResource(aiKey);
-                lbl5.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 5;
             }
-            else if (table[6] == 0 && table[7] == aiNum && table[8] == aiNum) //btm row
+            else if ((table[6] == 0 && table[7] == aiNum && table[8] == aiNum) ||
+                     (table[6] == 0 && table[2] == aiNum && table[4] == aiNum) ||
+                     (table[6] == 0 && table[0] == aiNum && table[3] == aiNum))
             {
-                table[6] = aiNum;
-                lbl7.Content = FindResource(aiKey);
-                lbl7.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 6;
             }
-            else if (table[6] == aiNum && table[7] == 0 && table[8] == aiNum)//btm row
+            else if ((table[7] == 0 && table[6] == aiNum && table[8] == aiNum) ||
+                     (table[7] == 0 && table[4] == aiNum && table[1] == aiNum))
             {
-                table[7] = aiNum;
-                lbl8.Content = FindResource(aiKey);
-                lbl8.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 7;
             }
-            else if (table[6] == aiNum && table[7] == aiNum && table[8] == 0)//btm row
+            else if ((table[8] == 0 && table[6] == aiNum && table[7] == aiNum) ||
+                     (table[8] == 0 && table[5] == aiNum && table[2] == aiNum) ||
+                     (table[8] == 0 && table[0] == aiNum && table[4] == aiNum))
             {
-                table[8] = aiNum;
-                lbl9.Content = FindResource(aiKey);
-                lbl9.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == 0 && table[3] == aiNum && table[6] == aiNum) //left row
-            {
-                table[0] = aiNum;
-                lbl1.Content = FindResource(aiKey);
-                lbl1.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == aiNum && table[3] == 0 && table[6] == aiNum)//left row
-            {
-                table[3] = aiNum;
-                lbl4.Content = FindResource(aiKey);
-                lbl4.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == aiNum && table[3] == aiNum && table[6] == 0)//left row
-            {
-                table[6] = aiNum;
-                lbl7.Content = FindResource(aiKey);
-                lbl7.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[4] == 0 && table[1] == aiNum && table[7] == aiNum) //mid row |
-            {
-                table[4] = aiNum;
-                lbl5.Content = FindResource(aiKey);
-                lbl5.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[4] == aiNum && table[1] == 0 && table[7] == aiNum)//mid row |
-            {
-                table[1] = aiNum;
-                lbl2.Content = FindResource(aiKey);
-                lbl2.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[4] == aiNum && table[1] == aiNum && table[7] == 0)//mid row |
-            {
-                table[7] = aiNum;
-                lbl8.Content = FindResource(aiKey);
-                lbl8.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[5] == 0 && table[2] == aiNum && table[8] == aiNum) //right row
-            {
-                table[5] = aiNum;
-                lbl6.Content = FindResource(aiKey);
-                lbl6.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[5] == aiNum && table[2] == 0 && table[8] == aiNum)//right row
-            {
-                table[2] = aiNum;
-                lbl3.Content = FindResource(aiKey);
-                lbl3.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[5] == aiNum && table[2] == aiNum && table[8] == 0)//right row
-            {
-                table[8] = aiNum;
-                lbl9.Content = FindResource(aiKey);
-                lbl9.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == 0 && table[4] == aiNum && table[8] == aiNum) //top left to btm right
-            {
-                table[0] = aiNum;
-                lbl1.Content = FindResource(aiKey);
-                lbl1.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == aiNum && table[4] == 0 && table[8] == aiNum) //top left to btm right
-            {
-                table[4] = aiNum;
-                lbl5.Content = FindResource(aiKey);
-                lbl5.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[0] == aiNum && table[4] == aiNum && table[8] == 0) //top left to btm right
-            {
-                table[8] = aiNum;
-                lbl9.Content = FindResource(aiKey);
-                lbl9.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[2] == 0 && table[4] == aiNum && table[6] == aiNum) //top right to btm left
-            {
-                table[2] = aiNum;
-                lbl3.Content = FindResource(aiKey);
-                lbl3.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[2] == aiNum && table[4] == 0 && table[6] == aiNum)//top right to btm left
-            {
-                table[4] = aiNum;
-                lbl5.Content = FindResource(aiKey);
-                lbl5.IsEnabled = false;
-                aiMove = false;
-                getResult();
-            }
-            else if (table[2] == aiNum && table[4] == aiNum && table[6] == 0)//top right to btm left
-            {
-                table[6] = aiNum;
-                lbl7.Content = FindResource(aiKey);
-                lbl7.IsEnabled = false;
-                aiMove = false;
-                getResult();
+                lastMove = 8;
             }
         }
 
-        public void blockRow()
+        public void BlockRow(ref int lastMove)
         {
-            if (aiMove)
+            if (lastMove == -1)
             {
-                if (table[0] == 0 && table[1] == pplNum && table[2] == pplNum)
+                if ((table[0] == 0 && table[1] == pplNum && table[2] == pplNum) ||
+                    (table[0] == 0 && table[3] == pplNum && table[6] == pplNum) ||
+                    (table[0] == 0 && table[4] == pplNum && table[8] == pplNum))
                 {
-                    table[0] = aiNum;
-                    lbl1.Content = FindResource(aiKey);
-                    lbl1.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 0;
                 }
-                else if (table[0] == pplNum && table[1] == 0 && table[2] == pplNum)
+                else if ((table[1] == 0 && table[0] == pplNum && table[2] == pplNum) ||
+                         (table[1] == 0 && table[4] == pplNum && table[7] == pplNum))
                 {
-                    table[1] = aiNum;
-                    lbl2.Content = FindResource(aiKey);
-                    lbl2.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 1;
                 }
-                else if (table[0] == pplNum && table[1] == pplNum && table[2] == 0)
+                else if ((table[2] == 0 && table[0] == pplNum && table[1] == pplNum) ||
+                         (table[2] == 0 && table[4] == pplNum && table[6] == pplNum) ||
+                         (table[2] == 0 && table[5] == pplNum && table[8] == pplNum))
                 {
-                    table[2] = aiNum;
-                    lbl3.Content = FindResource(aiKey);
-                    lbl3.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 2;
                 }
-                else if (table[5] == 0 && table[3] == pplNum && table[4] == pplNum)
+                else if ((table[3] == 0 && table[5] == pplNum && table[4] == pplNum) ||
+                         (table[3] == 0 && table[0] == pplNum && table[6] == pplNum))
                 {
-                    table[5] = aiNum;
-                    lbl6.Content = FindResource(aiKey);
-                    lbl6.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 3;
                 }
-                else if (table[5] == pplNum && table[3] == 0 && table[4] == pplNum)
+                else if ((table[4] == 0 && table[5] == pplNum && table[3] == pplNum) ||
+                         (table[4] == 0 && table[1] == pplNum && table[7] == pplNum) ||
+                         (table[4] == 0 && table[0] == pplNum && table[8] == pplNum) ||
+                         (table[4] == 0 && table[2] == pplNum && table[6] == pplNum))
                 {
-                    table[3] = aiNum;
-                    lbl4.Content = FindResource(aiKey);
-                    lbl4.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 4;
                 }
-                else if (table[5] == pplNum && table[3] == pplNum && table[4] == 0)
+                else if ((table[5] == 0 && table[3] == pplNum && table[4] == pplNum) ||
+                         (table[5] == 0 && table[2] == pplNum && table[8] == pplNum))
                 {
-                    table[4] = aiNum;
-                    lbl5.Content = FindResource(aiKey);
-                    lbl5.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 5;
                 }
-                else if (table[6] == 0 && table[7] == pplNum && table[8] == pplNum) 
+                else if ((table[6] == 0 && table[7] == pplNum && table[8] == pplNum) ||
+                         (table[6] == 0 && table[2] == pplNum && table[4] == pplNum) ||
+                         (table[6] == 0 && table[0] == pplNum && table[3] == pplNum)) 
                 {
-                    table[6] = aiNum;
-                    lbl7.Content = FindResource(aiKey);
-                    lbl7.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 6;
                 }
-                else if (table[6] == pplNum && table[7] == 0 && table[8] == pplNum)
+                else if ((table[7] == 0 && table[6] == pplNum && table[8] == pplNum) ||
+                         (table[7] == 0 && table[4] == pplNum && table[1] == pplNum))
                 {
-                    table[7] = aiNum;
-                    lbl8.Content = FindResource(aiKey);
-                    lbl8.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 7;
                 }
-                else if (table[6] == pplNum && table[7] == pplNum && table[8] == 0)
+                else if ((table[8] == 0 && table[6] == pplNum && table[7] == pplNum) ||
+                         (table[8] == 0 && table[5] == pplNum && table[2] == pplNum) ||
+                         (table[8] == 0 && table[0] == pplNum && table[4] == pplNum))
                 {
-                    table[8] = aiNum;
-                    lbl9.Content = FindResource(aiKey);
-                    lbl9.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == 0 && table[3] == pplNum && table[6] == pplNum)
-                {
-                    table[0] = aiNum;
-                    lbl1.Content = FindResource(aiKey);
-                    lbl1.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == pplNum && table[3] == 0 && table[6] == pplNum)
-                {
-                    table[3] = aiNum;
-                    lbl4.Content = FindResource(aiKey);
-                    lbl4.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == pplNum && table[3] == pplNum && table[6] == 0)
-                {
-                    table[6] = aiNum;
-                    lbl7.Content = FindResource(aiKey);
-                    lbl7.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[4] == 0 && table[1] == pplNum && table[7] == pplNum)
-                {
-                    table[4] = aiNum;
-                    lbl5.Content = FindResource(aiKey);
-                    lbl5.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[4] == pplNum && table[1] == 0 && table[7] == pplNum)
-                {
-                    table[1] = aiNum;
-                    lbl2.Content = FindResource(aiKey);
-                    lbl2.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[4] == pplNum && table[1] == pplNum && table[7] == 0)
-                {
-                    table[7] = aiNum;
-                    lbl8.Content = FindResource(aiKey);
-                    lbl8.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[5] == 0 && table[2] == pplNum && table[8] == pplNum)
-                {
-                    table[5] = aiNum;
-                    lbl6.Content = FindResource(aiKey);
-                    lbl6.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[5] == pplNum && table[2] == 0 && table[8] == pplNum)
-                {
-                    table[2] = aiNum;
-                    lbl3.Content = FindResource(aiKey);
-                    lbl3.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[5] == pplNum && table[2] == pplNum && table[8] == 0)
-                {
-                    table[8] = aiNum;
-                    lbl9.Content = FindResource(aiKey);
-                    lbl9.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == 0 && table[4] == pplNum && table[8] == pplNum)
-                {
-                    table[0] = aiNum;
-                    lbl1.Content = FindResource(aiKey);
-                    lbl1.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == pplNum && table[4] == 0 && table[8] == pplNum)
-                {
-                    table[4] = aiNum;
-                    lbl5.Content = FindResource(aiKey);
-                    lbl5.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[0] == pplNum && table[4] == pplNum && table[8] == 0)
-                {
-                    table[8] = aiNum;
-                    lbl9.Content = FindResource(aiKey);
-                    lbl9.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[2] == 0 && table[4] == pplNum && table[6] == pplNum)
-                {
-                    table[2] = aiNum;
-                    lbl3.Content = FindResource(aiKey);
-                    lbl3.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[2] == pplNum && table[4] == 0 && table[6] == pplNum)
-                {
-                    table[4] = aiNum;
-                    lbl5.Content = FindResource(aiKey);
-                    lbl5.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
-                }
-                else if (table[2] == pplNum && table[4] == pplNum && table[6] == 0)
-                {
-                    table[6] = aiNum;
-                    lbl7.Content = FindResource(aiKey);
-                    lbl7.IsEnabled = false;
-                    aiMove = false;
-                    getResult();
+                    lastMove = 8;
                 }
             }
         }
         
-        public void setTrap()
+        public void SetTrap(ref int lastMove)
         {
-            if (aiMove)
+            if (lastMove == -1)
             {
                 if (table[4] == aiNum && table[0] == aiNum && table[2] == 0 && table[6] == 0)
                 {
                     if (table[1] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                     else if (table[3] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                 }
                 else if (table[4] == aiNum && table[0] == 0 && table[2] == aiNum && table[8] == 0)
                 {
                     if (table[1] == 0)
                     {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 0;
                     }
                     else if (table[5] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                 }
                 else if (table[4] == aiNum && table[6] == 0 && table[2] == 0 && table[8] == aiNum)
                 {
                     if (table[7] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                     else if (table[5] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                 }
                 else if (table[4] == aiNum && table[0] == 0 && table[6] == aiNum && table[8] == 0)
                 {
                     if (table[3] == 0)
                     {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 0;
                     }
                     else if (table[7] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                 }
                 else if (table[3] == aiNum && table[1] == aiNum)
                 {
                     if (table[5] == 0 && table[7] == 0 && table[4] == 0)
                     {
-                        table[4] = aiNum;
-                        lbl5.Content = FindResource(aiKey);
-                        lbl5.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 4;
                     }
                     else if (table[2] == 0 && table[6] == 0 && table[0] == 0)
                     {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 0;
                     }
                 }
                 else if (table[5] == aiNum && table[1] == aiNum)
                 {
                     if (table[3] == 0 && table[7] == 0 && table[4] == 0)
                     {
-                        table[4] = aiNum;
-                        lbl5.Content = FindResource(aiKey);
-                        lbl5.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 4;
                     }
                     else if (table[0] == 0 && table[8] == 0 && table[2] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                 }
                 else if (table[5] == aiNum && table[7] == aiNum)
                 {
                     if (table[1] == 0 && table[3] == 0 && table[4] == 0)
                     {
-                        table[4] = aiNum;
-                        lbl5.Content = FindResource(aiKey);
-                        lbl5.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 4;
                     }
                     else if (table[2] == 0 && table[6] == 0 && table[8] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                 }
                 else if (table[3] == aiNum && table[7] == aiNum)
                 {
                     if (table[5] == 0 && table[1] == 0 && table[4] == 0)
                     {
-                        table[4] = aiNum;
-                        lbl5.Content = FindResource(aiKey);
-                        lbl5.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 4;
                     }
                     else if (table[0] == 0 && table[8] == 0 && table[6] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                 }
             }
         }
 
-        public void blockTrap()
+        public void BlockTrap(ref int lastMove)
         {
-            if (aiMove)
+            if (lastMove == -1)
             {
                 if (table[4] == pplNum)
                 {
                     if (table[0] == 0)
                     {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 0;
                     }
                     else if (table[2] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                     else if (table[6] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                     else if (table[8] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                 }
                 else if (table[1] == pplNum || table[3] == pplNum || table[5] == pplNum || table[7] == pplNum)
                 {
                     if (table[1] == pplNum && table[3] == 0)
                     {
-                        table[3] = aiNum;
-                        lbl4.Content = FindResource(aiKey);
-                        lbl4.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 3;
                     }
                     else if (table[1] == pplNum && table[5] == 0)
                     {
-                        table[5] = aiNum;
-                        lbl6.Content = FindResource(aiKey);
-                        lbl6.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 5;
                     }
                     else if (table[5] == pplNum && table[1] == 0)
                     {
-                        table[1] = aiNum;
-                        lbl2.Content = FindResource(aiKey);
-                        lbl2.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 1;
                     }
                     else if (table[5] == pplNum && table[7] == 0)
                     {
-                        table[7] = aiNum;
-                        lbl8.Content = FindResource(aiKey);
-                        lbl8.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 7;
                     }
                     else if (table[7] == pplNum && table[3] == 0)
                     {
-                        table[3] = aiNum;
-                        lbl4.Content = FindResource(aiKey);
-                        lbl4.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 3;
                     }
                     else if (table[7] == pplNum && table[5] == 0)
                     {
-                        table[5] = aiNum;
-                        lbl6.Content = FindResource(aiKey);
-                        lbl6.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 5;
                     }
                     else if (table[3] == pplNum && table[1] == 0)
                     {
-                        table[1] = aiNum;
-                        lbl2.Content = FindResource(aiKey);
-                        lbl2.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 1;
                     }
                     else if (table[3] == pplNum && table[7] == 0)
                     {
-                        table[7] = aiNum;
-                        lbl8.Content = FindResource(aiKey);
-                        lbl8.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 7;
                     }
                 }
                 else if (table[0] == pplNum || table[2] == pplNum || table[6] == pplNum || table[8] == pplNum)
                 {
                     if (table[0] == pplNum && table[2] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                     else if (table[0] == pplNum && table[6] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                     else if (table[2] == pplNum && table[0] == 0)
                     {
-                        table[1] = aiNum;
-                        lbl2.Content = FindResource(aiKey);
-                        lbl2.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 1;
                     }
                     else if (table[2] == pplNum && table[8] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                     else if (table[8] == pplNum && table[2] == 0)
                     {
-                        table[2] = aiNum;
-                        lbl3.Content = FindResource(aiKey);
-                        lbl3.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 2;
                     }
                     else if (table[8] == pplNum && table[6] == 0)
                     {
-                        table[6] = aiNum;
-                        lbl7.Content = FindResource(aiKey);
-                        lbl7.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 6;
                     }
                     else if (table[6] == pplNum && table[0] == 0)
                     {
-                        table[0] = aiNum;
-                        lbl1.Content = FindResource(aiKey);
-                        lbl1.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 0;
                     }
                     else if (table[6] == pplNum && table[8] == 0)
                     {
-                        table[8] = aiNum;
-                        lbl9.Content = FindResource(aiKey);
-                        lbl9.IsEnabled = false;
-                        aiMove = false;
+                        lastMove = 8;
                     }
                 }
             }
         }
 
-        public void randMove()
+        public void randMove(ref int lastMove)
         {
-            while (aiMove)
+            while (lastMove == -1 || table[lastMove] != 0)
             {
-                int n = rnd.Next(9);
-                if (table[n] == 0)
-                {
-                    table[n] = aiNum;
-                    n += 1;
-                    string labelName = string.Concat("lbl", string.Format("" + n));
-                    var label = FindName(labelName) as Label;
-                    label.Content = FindResource(aiKey);
-                    label.IsEnabled = false;
-                    aiMove = false;
-                }
+                lastMove = random.Next(9);
             }
         }
 
-        public bool getResult()
+        public void PlotAiMoveOnTable(int tableIndex)
+        {
+            table[tableIndex] = aiNum;
+            int labelNum = tableIndex + 1;
+            string labelName = string.Concat("lbl", string.Format("" + labelNum));
+            var label = FindName(labelName) as Label;
+            label.Content = FindResource(aiKey);
+            label.IsEnabled = false;
+        }
+
+        public bool getResult(int lastMove)
         {
             if (!end)
             {
-                if (table[0] != 0 && table[0] == table[1] && table[0] == table[2])
+                if (GameManager.Instance.CheckWinCondition(lastMove, table))
                 {
+                    end = true;
                     return true;
                 }
-                else if (table[0] != 0 && table[0] == table[3] && table[0] == table[6])
-                {
-                    return true;
-                }
-                else if (table[0] != 0 && table[0] == table[4] && table[0] == table[8])
-                {
-                    return true;
-                }
-                else if (table[1] != 0 && table[1] == table[4] && table[1] == table[7])
-                {
-                    return true;
-                }
-                else if (table[3] != 0 && table[3] == table[4] && table[3] == table[5])
-                {
-                    return true;
-                }
-                else if (table[6] != 0 && table[6] == table[7] && table[6] == table[8])
-                {
-                    return true;
-                }
-                else if (table[2] != 0 && table[2] == table[4] && table[2] == table[6])
-                {
-                    return true;
-                }
-                else if (table[2] != 0 && table[2] == table[5] && table[2] == table[8])
-                {
-                    return true;
-                } 
             }
             return false;
         }
 
-        private void lbl_MouseDown(object sender, MouseButtonEventArgs e)
+        private void PlayerMove(object sender, MouseButtonEventArgs e)
         {
-            counter += 1;
+            currentTurn += 1;
             Label lbl = sender as Label;
             lbl.Content = FindResource(playerKey);
             int num = int.Parse(lbl.Name[3].ToString()) - 1;
@@ -863,25 +446,24 @@ namespace TicTacToe
            
             if (!end)
             {
-                aiMove = true;
-                if (getResult())
+                if (getResult(num))
                 {
                     MessageBox.Show("Player Win!");
                     end = true;
-                    aiMove = false;
-                    reset();
-                    NavigationService.GetNavigationService(this).Navigate(menu);
                 }
-                else if (counter == 9)
+                else if (currentTurn == 9)
                 {
                     MessageBox.Show("Draw!");
                     end = true;
-                    aiMove = false;
-                    reset();
-                    NavigationService.GetNavigationService(this).Navigate(menu);
                 }
-                else if (aiMove)
+                else
                     AiMove();
+            }
+
+            if (end)
+            {
+                reset();
+                NavigationService.GetNavigationService(this).Navigate(menu);
             }
         }
         
@@ -896,7 +478,7 @@ namespace TicTacToe
             lbl7.Content = "";
             lbl8.Content = "";
             lbl9.Content = "";
-            counter = 0;
+            currentTurn = 0;
         }
     }
 }
