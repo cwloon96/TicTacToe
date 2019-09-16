@@ -9,7 +9,6 @@ namespace TicTacToe
     {
         int[] table = new int[9];
         int counter = 0;
-        MainMenu menu = new MainMenu();
         string choice = "";
         string notChoice = "";
 
@@ -62,14 +61,14 @@ namespace TicTacToe
                 else
                     MessageBox.Show("Player 1 Win!");
                 reset();
-                NavigationService.GetNavigationService(this).Navigate(menu);
+                NavigationService.GetNavigationService(this).Navigate(new MainMenu());
             }
 
             if (counter == 9)
             {
                 MessageBox.Show("Draw!");
                 reset();
-                NavigationService.GetNavigationService(this).Navigate(menu);
+                NavigationService.GetNavigationService(this).Navigate(new MainMenu());
             }
         }
 

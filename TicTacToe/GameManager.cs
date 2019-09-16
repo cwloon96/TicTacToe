@@ -25,13 +25,10 @@ namespace TicTacToe
         {
             get
             {
-                if (_instance != null) return _instance;
-
-                lock (_syncLock)
-                {
-                    if (_instance == null)
-                        _instance = new GameManager();
-                }
+                if (_instance == null)
+                    lock (_syncLock)
+                        if (_instance == null)
+                            _instance = new GameManager();
 
                 return _instance;
             }

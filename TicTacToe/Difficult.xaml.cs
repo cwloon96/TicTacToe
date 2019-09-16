@@ -14,9 +14,8 @@ namespace TicTacToe
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            PVESelection PVESelection = new PVESelection();
             Application.Current.Properties["difficulty"] = button.Name;
-            NavigationService.GetNavigationService(this).Navigate(PVESelection);
+            NavigationService.GetNavigationService(this).Navigate(new PVESelection());
         }
     }
 }

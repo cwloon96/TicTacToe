@@ -13,14 +13,12 @@ namespace TicTacToe
 
         private void btnSinglePlayer_Click(object sender, RoutedEventArgs e)
         {
-            Difficult difficult = new Difficult();
-            NavigationService.GetNavigationService(this).Navigate(difficult);
+            NavigationService.GetNavigationService(this).Navigate(new Difficult());
         }
 
         private void btnMultiPlayer_Click(object sender, RoutedEventArgs e)
         {
-            WhoFirst wf = new WhoFirst();
-            NavigationService.GetNavigationService(this).Navigate(wf);
+            NavigationService.GetNavigationService(this).Navigate(new WhoFirst());
         }
     }
 }

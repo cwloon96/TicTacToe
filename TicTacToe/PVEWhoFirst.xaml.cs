@@ -15,8 +15,7 @@ namespace TicTacToe
         {
             Button button = sender as Button;
             Application.Current.Properties["whoFirst"] = button.Name;
-            PVE pve = new PVE();
-            NavigationService.GetNavigationService(this).Navigate(pve);
+            NavigationService.GetNavigationService(this).Navigate(new PVE());
         }
     }
 }

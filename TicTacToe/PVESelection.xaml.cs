@@ -14,9 +14,8 @@ namespace TicTacToe
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            PVEWhoFirst pVEWhoFirst = new PVEWhoFirst();
             Application.Current.Properties["playerUse"] = button.Name;
-            NavigationService.GetNavigationService(this).Navigate(pVEWhoFirst);
+            NavigationService.GetNavigationService(this).Navigate(new PVEWhoFirst());
         }
     }
 }

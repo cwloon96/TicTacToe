@@ -10,16 +10,15 @@ namespace TicTacToe
     {
         int[] table = new int[9];
         int currentTurn = 0;
-        MainMenu menu = new MainMenu();
-        bool isAiFirst = false;
-        Random random = new Random();
         int level = 0;
-        bool end = false;
         int aiNum = 0;
         int pplNum = 0;
-        
-        string playerKey = Application.Current.Properties["playerUse"].ToString();
+        bool isAiFirst = false;
+        bool end = false;
+        Random random = new Random();
+
         string aiKey = "";
+        string playerKey = Application.Current.Properties["playerUse"].ToString();
         string diff = Application.Current.Properties["difficulty"].ToString();
         string whoFirst = Application.Current.Properties["whoFirst"].ToString();
 
@@ -79,24 +78,19 @@ namespace TicTacToe
             randMove(ref lastMove);
 
             PlotAiMoveOnTable(lastMove);
+
             if (!end)
             {
                 if (getResult(lastMove))
-                {
                     MessageBox.Show("Computer Win!");
-                    end = true;
-                }
                 else if (currentTurn == 9)
-                {
                     MessageBox.Show("Draw!");
-                    end = true;
-                }
             }
 
             if (end)
             {
                 reset();
-                NavigationService.GetNavigationService(this).Navigate(menu);
+                NavigationService.GetNavigationService(this).Navigate(new MainMenu());
             }
         }
 
@@ -424,15 +418,10 @@ namespace TicTacToe
 
         public bool getResult(int lastMove)
         {
-            if (!end)
-            {
-                if (GameManager.Instance.CheckWinCondition(lastMove, table))
-                {
-                    end = true;
-                    return true;
-                }
-            }
-            return false;
+            if (!end && GameManager.Instance.CheckWinCondition(lastMove, table))
+                end = true;
+
+            return end;
         }
 
         private void PlayerMove(object sender, MouseButtonEventArgs e)
@@ -447,15 +436,9 @@ namespace TicTacToe
             if (!end)
             {
                 if (getResult(num))
-                {
                     MessageBox.Show("Player Win!");
-                    end = true;
-                }
                 else if (currentTurn == 9)
-                {
                     MessageBox.Show("Draw!");
-                    end = true;
-                }
                 else
                     AiMove();
             }
@@ -463,7 +446,7 @@ namespace TicTacToe
             if (end)
             {
                 reset();
-                NavigationService.GetNavigationService(this).Navigate(menu);
+                NavigationService.GetNavigationService(this).Navigate(new MainMenu());
             }
         }
         
